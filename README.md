@@ -13,6 +13,10 @@
 - [ ] Add rate limiting
 - [ ] Deploy to Fly.io, setup CDN and github actions
 
+## Screenshot (light mode)
+
+![light mode](https://github.com/ivan-kobzar/historical-forecast/blob/main/public/screenshot.png)
+
 ## Development
 
 Run the dev server:
