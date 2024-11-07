@@ -1,6 +1,14 @@
-# Welcome to Remix!
+# Welcome to Historical Forecast!
 
-- 📖 [Remix docs](https://remix.run/docs)
+- 📖 Main framework: [Remix](https://remix.run/docs)
+- 📖 UI: [Shadcn](https://ui.shadcn.com/)
+- 📖 API: [OpenWeatherMap](https://openweathermap.org/api)
+
+## Future Improvements
+
+- [ ] Add unit and playwright tests
+- [ ] Add rate limiting
+- [ ] Deploy to Fly.io
 
 ## Development
 
