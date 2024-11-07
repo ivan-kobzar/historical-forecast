@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useSearchParams } from "@remix-run/react";
+import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 
 import { addDays, format } from "date-fns";
@@ -13,10 +14,24 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 export function RangeDatePicker({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const searchParamFrom = searchParams.get("from");
+  const searchParamTo = searchParams.get("to");
+
   const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: addDays(new Date(), -31),
+    from: searchParamFrom
+      ? new Date(searchParamFrom)
+      : addDays(new Date(), -31),
+    to: searchParamTo ? new Date(searchParamTo) : new Date(),
   });
+
+  useEffect(() => {
+    setSearchParams({
+      from: date?.from ? format(date.from, "yyyy-MM-dd") : "",
+      to: date?.to ? format(date.to, "yyyy-MM-dd") : "",
+    });
+  }, [date, setSearchParams]);
 
   return (
     <div className={cn("grid gap-2", className)}>
