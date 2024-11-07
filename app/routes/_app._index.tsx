@@ -30,7 +30,7 @@ const apiCache = new Map<string, ForecastData>();
 // NOTE: Browser caching
 export const headers: HeadersFunction = () => {
   return {
-    "Cache-Control": "public, s-maxage=60",
+    "Cache-Control": "max-age=300, s-maxage=3600",
   };
 };
 
@@ -67,11 +67,15 @@ export async function loader({ request }: LoaderFunctionArgs) {
   throw new Error(`Failed to fetch data from ${process.env.API_URL}`);
 }
 
-// TODO: Data fetching and cashing
-// TODO: Display chart with data
 export default function AppIndex() {
   const { data } = useLoaderData<typeof loader>();
-  console.log(data);
+
+  const chartData = data?.daily.time.map((time, index) => ({
+    time,
+    highest: data.daily.temperature_2m_max[index],
+    lowest: data.daily.temperature_2m_min[index],
+  }));
+
   return (
     <Card className="w-full max-w-[640px]">
       <CardHeader>
@@ -83,7 +87,7 @@ export default function AppIndex() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <TemperatureChart />
+        <TemperatureChart data={chartData} />
       </CardContent>
       <CardFooter className="flex justify-center">
         <RangeDatePicker />

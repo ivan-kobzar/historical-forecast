@@ -7,72 +7,61 @@ import {
   ChartTooltipContent,
 } from "~/components/ui/chart";
 
-const chartData = [
-  { month: "January", highest: 186, lowest: 80 },
-  { month: "February", highest: 305, lowest: 200 },
-  { month: "March", highest: 237, lowest: 120 },
-  { month: "April", highest: 73, lowest: 190 },
-  { month: "May", highest: 209, lowest: 130 },
-  { month: "June", highest: 214, lowest: 140 },
-];
+export interface ChartData {
+  time: string;
+  lowest: number;
+  highest: number;
+}
 
 const chartConfig = {
   highest: {
-    label: "highest",
+    label: "Highest",
     color: "#ef4444",
   },
   lowest: {
-    label: "lowest",
+    label: "Lowest",
     color: "#60a5fa",
   },
 } satisfies ChartConfig;
 
-export function TemperatureChart() {
+export function TemperatureChart({ data }: { data?: ChartData[] }) {
   return (
     <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-      <LineChart accessibilityLayer data={chartData}>
+      <LineChart accessibilityLayer data={data}>
         <CartesianGrid strokeDasharray="4 4" />
         <XAxis
-          dataKey="month"
+          dataKey="time"
           tickLine={false}
           tickMargin={6}
-          // tickFormatter={(value) =>
-          //   new Date(value).toLocaleDateString("en-US", {
-          //     month: "short",
-          //     day: isMonthToDate ? "numeric" : undefined,
-          //   })
-          // }
+          tickFormatter={(value) =>
+            new Date(value).toLocaleDateString(undefined, {
+              month: "short",
+              day: "numeric",
+            })
+          }
         />
         <YAxis
           dataKey="highest"
           tickLine={false}
           tickMargin={4}
-          // tickFormatter={(value) =>
-          //   formatMoney(value, undefined, {
-          //     notation: "compact",
-          //   })
-          // }
+          tickFormatter={(value) => `${value}°C`}
         />
         <YAxis
           dataKey="lowest"
           tickLine={false}
           tickMargin={4}
-          // tickFormatter={(value) =>
-          //   formatMoney(value, undefined, {
-          //     notation: "compact",
-          //   })
-          // }
+          tickFormatter={(value) => `${value}°C`}
         />
         <ChartTooltip
           cursor={false}
           content={
             <ChartTooltipContent
-              hideLabel
-              // formatter={(value) => (
-              //   <div>
-              //     Revenue: <strong>{formatMoney(Number(value))}</strong>
-              //   </div>
-              // )}
+              labelFormatter={(value) =>
+                new Date(value).toLocaleDateString(undefined, {
+                  month: "short",
+                  day: "numeric",
+                })
+              }
               className="bg-card shadow-lg"
             />
           }
