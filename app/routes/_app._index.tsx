@@ -17,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import { API_URL } from "~/constants/url";
 import { TemperatureChart } from "~/features/weather/components/temperature-chart";
 import { ForecastData } from "~/types/api";
 
@@ -24,7 +25,7 @@ export const meta: MetaFunction = () => {
   return [{ title: "Historical Forecast - Temperature Visualization" }];
 };
 
-// NOTE: Server in memory caching
+// NOTE: Simple in memory caching
 const apiCache = new Map<string, ForecastData>();
 
 // NOTE: Browser caching
@@ -53,7 +54,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   }
 
   const response = await fetch(
-    `${process.env.API_URL}?latitude=51.5074&longitude=-0.1278&start_date=${format(from, "yyyy-MM-dd")}&end_date=${format(to, "yyyy-MM-dd")}&daily=temperature_2m_max,temperature_2m_min`,
+    `${API_URL}?latitude=51.5074&longitude=-0.1278&start_date=${format(from, "yyyy-MM-dd")}&end_date=${format(to, "yyyy-MM-dd")}&daily=temperature_2m_max,temperature_2m_min`,
   );
 
   const data: ForecastData = await response.json();
@@ -64,7 +65,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     return { data };
   }
 
-  throw new Error(`Failed to fetch data from ${process.env.API_URL}`);
+  throw new Error(`Failed to fetch data from ${API_URL}`);
 }
 
 export default function AppIndex() {
@@ -102,7 +103,7 @@ export function ErrorBoundary() {
   const errorMessage = error instanceof Error ? error.message : "Unknown error";
 
   return (
-    <Card className="min-w-[640px]">
+    <Card className="max-w-[640px]">
       <CardHeader className="flex flex-col items-center gap-2">
         <FileWarning className="size-20 text-primary" />
         <CardTitle className="text-center font-semibold">

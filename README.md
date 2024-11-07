@@ -8,10 +8,10 @@
 
 - [ ] Add unit and playwright tests
 - [ ] Zod validation for environment variables
-- [ ] If we need to implement zooming we can use [Victory Chart](https://commerce.nearform.com/open-source/victory/docs/api/victory-zoom-container) that has zoom container
+- [ ] Considering using [Victory Chart](https://commerce.nearform.com/open-source/victory/docs/api/victory-zoom-container) it has built in zoom container
 - [ ] Logging and error tracking with Sentry
 - [ ] Add rate limiting
-- [ ] Deploy to Fly.io
+- [ ] Deploy to Fly.io, setup CDN and github actions
 
 ## Development
 
